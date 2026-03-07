@@ -1,0 +1,93 @@
+.navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 1000;
+  transition: 0.4s;
+  background: radial-gradient(circle at 10% 20%, rgba(79, 35, 157, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(43, 171, 222, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(14, 148, 173, 0.15) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(79, 35, 157, 0.4), rgba(43, 171, 222, 0.4));
+  backdrop-filter: blur(1rem);
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  list-style: none;
+  position: relative;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.8rem;
+  opacity: 0.6;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 0.4rem;
+}
+
+.navbar-link:hover,
+.navbar-link.active {
+  opacity: 1;
+}
+
+.navbar-indicator {
+  position: absolute;
+  left: -1.6rem;
+  width: 0.3rem;
+  height: 2.4rem;
+  background: var(--main-color-400);
+  border-radius: 0.2rem;
+  transition: top 0.3s ease;
+  will-change: transform;
+}
+
+.navbar-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  padding-bottom: 2rem;
+}
+
+.navbar-contact a {
+  color: white;
+  font-size: 1.6rem;
+  opacity: 0.6;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.navbar-contact a:hover { opacity: 1; }
+.navbar-contact a.whatsapp:hover { color: #25d366; }
+.navbar-contact a.linkedin:hover { color: #0a66c2; }
+.navbar-contact a.email:hover { color: #ffc107; }
+
+@media screen and (max-width: 800px) {
+  .navbar {
+    width: 100%;
+    height: 5rem;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0 1rem;
+  }
+  .navbar-links { flex-direction: row; }
+  .navbar-indicator { display: none; }
+  .navbar-contact {
+    flex-direction: row;
+    margin-top: 0;
+    padding-bottom: 0;
+  }
+}

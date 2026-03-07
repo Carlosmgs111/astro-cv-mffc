@@ -1,0 +1,74 @@
+---
+interface TimelineEntry {
+  slug: string;
+  title: string;
+  subtitle: string;
+  lapse: string;
+  bodyHtml: string;
+  pointLabel: string;
+  background?: string;
+}
+
+interface Props {
+  id: string;
+  sectionTitle: string;
+  entries: TimelineEntry[];
+  indicatorIcon?: string;
+}
+
+const { id, sectionTitle, entries, indicatorIcon = '✈️' } = Astro.props;
+---
+
+<section class="timeline-section" id={id} data-animate>
+  <h2 class="timeline-section-title" data-animate-child>{sectionTitle}</h2>
+
+  {entries.map((entry, i) => (
+    <div
+      class={`timeline-background ${i === 0 ? 'selected' : ''}`}
+      style={entry.background ? `background-image: url(${entry.background})` : ''}
+      data-bg-index={i}
+    />
+  ))}
+
+  <div class="timeline-content">
+    <div class="timeline-infoboxes" data-timeline-scroll={id}>
+      {entries.map((entry, i) => (
+        <div class="timeline-infobox-wrapper" data-index={i}>
+          <div class={`timeline-infobox ${i === 0 ? 'selected' : ''}`} data-infobox={i}>
+            <div class="timeline-card">
+              <div class="timeline-card-content">
+                <div class="timeline-card-header">
+                  <h3><i class="fa-solid fa-briefcase"></i> {entry.title}</h3>
+                  <span>{entry.subtitle}</span>
+                </div>
+                <p class="timeline-card-lapse"><i class="fa-solid fa-calendar"></i> {entry.lapse}</p>
+                <div class="timeline-card-body" set:html={entry.bodyHtml} />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="timeline-bar" data-animate-child>
+      <ul class="timeline-points" data-timeline-points={id}>
+        <li class="timeline-indicator" data-timeline-indicator={id}>{indicatorIcon}</li>
+        {entries.map((entry, i) => (
+          <li class="timeline-point-container">
+            <div
+              class={`timeline-point ${i === 0 ? 'selected' : ''}`}
+              data-point-index={i}
+              data-timeline-id={id}
+            >
+              <span class="timeline-point-title">{entry.pointLabel}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import '../styles/components/timeline.css';
+</style>

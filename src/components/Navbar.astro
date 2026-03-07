@@ -1,0 +1,58 @@
+---
+interface ContactLink {
+  name: string;
+  label: string;
+  url: string;
+  icon: string;
+}
+
+interface Props {
+  contacts: ContactLink[];
+}
+
+const { contacts } = Astro.props;
+
+const sections = [
+  { id: 'hero', icon: 'fa-solid fa-house', label: 'Inicio' },
+  { id: 'experiences', icon: 'fa-solid fa-briefcase', label: 'Experiencia' },
+  { id: 'formations', icon: 'fa-solid fa-graduation-cap', label: 'Formación' },
+  { id: 'skills', icon: 'fa-solid fa-chart-bar', label: 'Habilidades' },
+  { id: 'contact', icon: 'fa-solid fa-address-book', label: 'Contacto' },
+];
+
+const iconMap: Record<string, string> = {
+  whatsapp: 'fa-brands fa-whatsapp',
+  linkedin: 'fa-brands fa-linkedin',
+  email: 'fa-solid fa-envelope',
+};
+---
+
+<nav class="navbar" id="navbar">
+  <ul class="navbar-links">
+    <li class="navbar-indicator" id="navbar-indicator"></li>
+    {sections.map((s) => (
+      <li>
+        <a class="navbar-link" href={`#${s.id}`} data-section={s.id} title={s.label}>
+          <i class={s.icon}></i>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="navbar-contact">
+    {contacts.map((c) => (
+      <a
+        href={c.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={c.icon}
+        title={c.name}
+      >
+        <i class={iconMap[c.icon] || 'fa-solid fa-link'}></i>
+      </a>
+    ))}
+  </div>
+</nav>
+
+<style>
+  @import '../styles/components/navbar.css';
+</style>

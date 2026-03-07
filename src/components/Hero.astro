@@ -1,0 +1,25 @@
+---
+interface Props {
+  name: string;
+  title: string;
+  photo: string;
+  aboutHtml: string;
+}
+
+const { name, title, photo, aboutHtml } = Astro.props;
+---
+
+<section class="hero" id="hero" data-animate>
+  <div class="hero-photo-container" data-animate-child>
+    <img class="hero-photo" src={photo} alt={`Foto de ${name}`} loading="eager" />
+  </div>
+  <div class="hero-text">
+    <h1 class="hero-title" data-animate-child>{name}</h1>
+    <p class="hero-subtitle" data-animate-child>{title}</p>
+    <div class="hero-about" data-animate-child set:html={aboutHtml} />
+  </div>
+</section>
+
+<style>
+  @import '../styles/components/hero.css';
+</style>

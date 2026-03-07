@@ -1,0 +1,99 @@
+.skills-section {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 3rem;
+}
+
+.skills-title {
+  font-size: var(--title-font-size);
+  font-family: var(--title-font);
+  font-weight: 400;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.skills-title.visible {
+  opacity: 1;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+  gap: 3rem;
+  width: 100%;
+  justify-items: center;
+}
+
+.skill-card {
+  width: 100%;
+  max-width: 30rem;
+  padding: 2.4rem;
+  border-radius: 1.6rem;
+  background: #63e6fd1b;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.298);
+  backdrop-filter: blur(0.6rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+.skill-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skill-label {
+  font-size: var(--text-font-size);
+  font-family: var(--main-font);
+  font-weight: 500;
+  color: black;
+  text-align: center;
+}
+
+.skill-progress {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+}
+
+.skill-progress svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.skill-progress-bg {
+  fill: none;
+  stroke: var(--main-color-950b);
+  stroke-width: 8;
+}
+
+.skill-progress-fill {
+  fill: none;
+  stroke: var(--main-color-400);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.skill-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: black;
+}

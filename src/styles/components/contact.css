@@ -1,0 +1,68 @@
+.contact-section {
+  min-height: 60vh;
+  width: 100%;
+  max-width: 80rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 3rem;
+}
+
+.contact-title {
+  font-size: var(--title-font-size);
+  font-family: var(--title-font);
+  font-weight: 400;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.contact-title.visible {
+  opacity: 1;
+}
+
+.contact-links {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 2.4rem;
+  border-radius: 1.2rem;
+  background: #63e6fd1b;
+  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.298);
+  backdrop-filter: blur(0.6rem);
+  color: black;
+  text-decoration: none;
+  font-size: var(--text-font-size);
+  font-family: var(--main-font);
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.contact-link.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-link:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 0 3rem rgba(0, 0, 0, 0.4);
+}
+
+.contact-link i {
+  font-size: 2.4rem;
+}
+
+.contact-link.whatsapp:hover { color: #25d366; }
+.contact-link.linkedin:hover { color: #0a66c2; }
+.contact-link.email:hover { color: #ffc107; }

@@ -1,0 +1,27 @@
+---
+import SkillCard from './SkillCard.astro';
+
+interface SkillData {
+  label: string;
+  level: number;
+}
+
+interface Props {
+  skills: SkillData[];
+}
+
+const { skills } = Astro.props;
+---
+
+<section class="skills-section" id="skills" data-animate>
+  <h2 class="skills-title" data-animate-child>Habilidades</h2>
+  <div class="skills-grid">
+    {skills.map((skill) => (
+      <SkillCard label={skill.label} level={skill.level} />
+    ))}
+  </div>
+</section>
+
+<style>
+  @import '../styles/components/skills.css';
+</style>

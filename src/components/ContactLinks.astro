@@ -1,0 +1,42 @@
+---
+interface ContactLink {
+  name: string;
+  label: string;
+  url: string;
+  icon: string;
+}
+
+interface Props {
+  contacts: ContactLink[];
+}
+
+const { contacts } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  whatsapp: 'fa-brands fa-whatsapp',
+  linkedin: 'fa-brands fa-linkedin',
+  email: 'fa-solid fa-envelope',
+};
+---
+
+<section class="contact-section" id="contact" data-animate>
+  <h2 class="contact-title" data-animate-child>Contacto</h2>
+  <div class="contact-links">
+    {contacts.map((c) => (
+      <a
+        href={c.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={`contact-link ${c.icon}`}
+        data-animate-child
+      >
+        <i class={iconMap[c.icon] || 'fa-solid fa-link'}></i>
+        <span>{c.label}</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  @import '../styles/components/contact.css';
+</style>
