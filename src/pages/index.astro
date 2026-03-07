@@ -1,17 +1,126 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import Timeline from '../components/Timeline.astro';
+import SkillsGrid from '../components/SkillsGrid.astro';
+import ContactLinks from '../components/ContactLinks.astro';
+import { getSingleton, listCollection } from '../lib/content';
 
+const hero = getSingleton('hero');
+const about = getSingleton('about');
+const contactData = getSingleton<{ links: { name: string; label: string; url: string; icon: string }[] }>('contact');
+const backgrounds = getSingleton<{ portrait: string[]; landscape: string[] }>('backgrounds');
+
+const experiences = listCollection<{
+  title: string; company: string; startDate: string; endDate: string;
+  image: string; order: number;
+}>('experiences');
+
+const formations = listCollection<{
+  degree: string; institute: string; location: string;
+  startDate: string; endDate: string; order: number;
+}>('formations');
+
+const skills = listCollection<{
+  name: string; label: string; level: number; order: number;
+}>('skills');
+
+function formatDate(d: string): string {
+  if (!d) return 'Presente';
+  const [year, month] = d.split('-');
+  const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+  return `${months[parseInt(month) - 1]} ${year}`;
+}
+
+const bgList = backgrounds?.data?.landscape ?? [];
+const expEntries = experiences.map((exp, i) => ({
+  slug: exp.slug,
+  title: exp.data.title,
+  subtitle: exp.data.company,
+  lapse: `${formatDate(exp.data.startDate)} - ${formatDate(exp.data.endDate)}`,
+  bodyHtml: exp.html,
+  pointLabel: exp.data.company,
+  background: bgList[i % bgList.length] || '',
+}));
+
+const formEntries = formations.map((f, i) => ({
+  slug: f.slug,
+  title: f.data.degree,
+  subtitle: f.data.institute,
+  lapse: `${formatDate(f.data.startDate)} - ${formatDate(f.data.endDate)}`,
+  bodyHtml: f.html,
+  pointLabel: f.data.institute,
+  background: bgList[(i + 3) % bgList.length] || '',
+}));
+
+const skillsData = skills.map((s) => ({
+  label: s.data.label,
+  level: s.data.level,
+}));
+
+const contacts = contactData?.data?.links ?? [];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <Navbar contacts={contacts} />
+
+  <main>
+    <Hero
+      name={hero?.data?.name ?? 'Maria Fernanda Florez Contreras'}
+      title={hero?.data?.title ?? ''}
+      photo={hero?.data?.photo ?? '/images/mffc_bg_removed.png'}
+      aboutHtml={about?.html ?? ''}
+    />
+
+    {expEntries.length > 0 && (
+      <Timeline
+        id="experiences"
+        sectionTitle="Experiencia"
+        entries={expEntries}
+        indicatorIcon="✈️"
+      />
+    )}
+
+    {formEntries.length > 0 && (
+      <Timeline
+        id="formations"
+        sectionTitle="Formación"
+        entries={formEntries}
+        indicatorIcon="🎓"
+      />
+    )}
+
+    {skillsData.length > 0 && (
+      <SkillsGrid skills={skillsData} />
+    )}
+
+    <ContactLinks contacts={contacts} />
+  </main>
+
+  <script src="../scripts/animations.ts"></script>
+  <script src="../scripts/navbar.ts"></script>
+  <script src="../scripts/timeline.ts"></script>
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (!e.altKey) return;
+      const key = e.key.toLowerCase();
+      if (key === 'l') window.location.href = '/login';
+      if (key === 'd') window.location.href = '/dashboard';
+      if (key === 'h') window.location.href = '/';
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  main {
+    margin-left: 6rem;
+    scroll-behavior: smooth;
+  }
+  @media screen and (max-width: 800px) {
+    main {
+      margin-left: 0;
+      margin-top: 5rem;
+    }
+  }
+</style>
