@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { listCollection, getSingleton } from '../../lib/content';
+
+const user = Astro.locals.user;
+if (!user) {
+  return Astro.redirect('/login');
+}
+
+const experiences = listCollection('experiences');
+const formations = listCollection('formations');
+const skills = listCollection('skills');
+const hero = getSingleton('hero');
+const about = getSingleton('about');
+---
+
+<BaseLayout title="Dashboard — MFFC">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+      <div class="dashboard-actions">
+        <a href="/" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Inicio</a>
+        <button class="btn btn-danger" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h2><i class="fa-solid fa-user"></i> Perfil</h2>
+      <div class="dashboard-items">
+        <div class="dashboard-item">
+          <div class="dashboard-item-info">
+            <strong>{(hero?.data as any)?.name ?? 'Sin nombre'}</strong>
+            <span>{(hero?.data as any)?.title ?? ''}</span>
+          </div>
+        </div>
+        <div class="dashboard-item">
+          <div class="dashboard-item-info">
+            <strong>Acerca de</strong>
+            <span>{about?.body?.substring(0, 80)}...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h2>
+        <i class="fa-solid fa-briefcase"></i> Experiencias
+        <button class="btn btn-primary btn-sm" data-add="experiences"><i class="fa-solid fa-plus"></i></button>
+      </h2>
+      <div class="dashboard-items" id="experiences-list">
+        {experiences.map((exp) => (
+          <div class="dashboard-item" data-slug={exp.slug}>
+            <div class="dashboard-item-info">
+              <strong>{(exp.data as any).title}</strong>
+              <span>{(exp.data as any).company} — {(exp.data as any).startDate} a {(exp.data as any).endDate || 'Presente'}</span>
+            </div>
+            <div class="dashboard-item-actions">
+              <button class="btn btn-primary btn-sm" data-edit="experiences" data-slug={exp.slug}>
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" data-delete="experiences" data-slug={exp.slug}>
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h2>
+        <i class="fa-solid fa-graduation-cap"></i> Formación
+        <button class="btn btn-primary btn-sm" data-add="formations"><i class="fa-solid fa-plus"></i></button>
+      </h2>
+      <div class="dashboard-items" id="formations-list">
+        {formations.map((f) => (
+          <div class="dashboard-item" data-slug={f.slug}>
+            <div class="dashboard-item-info">
+              <strong>{(f.data as any).degree}</strong>
+              <span>{(f.data as any).institute}</span>
+            </div>
+            <div class="dashboard-item-actions">
+              <button class="btn btn-primary btn-sm" data-edit="formations" data-slug={f.slug}>
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" data-delete="formations" data-slug={f.slug}>
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="dashboard-section">
+      <h2>
+        <i class="fa-solid fa-chart-bar"></i> Habilidades
+        <button class="btn btn-primary btn-sm" data-add="skills"><i class="fa-solid fa-plus"></i></button>
+      </h2>
+      <div class="dashboard-items" id="skills-list">
+        {skills.map((s) => (
+          <div class="dashboard-item" data-slug={s.slug}>
+            <div class="dashboard-item-info">
+              <strong>{(s.data as any).label}</strong>
+              <span>{(s.data as any).level}%</span>
+            </div>
+            <div class="dashboard-item-actions">
+              <button class="btn btn-primary btn-sm" data-edit="skills" data-slug={s.slug}>
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" data-delete="skills" data-slug={s.slug}>
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <h3 id="modal-title">Editar</h3>
+      <form id="modal-form">
+        <div id="modal-fields"></div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../../scripts/dashboard.ts"></script>
+</BaseLayout>
+
+<style>
+  @import '../../styles/components/dashboard.css';
+</style>
