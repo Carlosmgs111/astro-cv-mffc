@@ -28,31 +28,45 @@ const iconMap: Record<string, string> = {
 ---
 
 <nav class="navbar" id="navbar" aria-label="Navegación principal">
+  <!-- Mobile hamburger -->
   <button class="navbar-toggle" id="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
     <span class="navbar-toggle-bar"></span>
     <span class="navbar-toggle-bar"></span>
     <span class="navbar-toggle-bar"></span>
   </button>
 
+  <!-- Mobile overlay -->
+  <div class="navbar-overlay" id="navbar-overlay" aria-hidden="true"></div>
+
   <div class="navbar-panel" id="navbar-panel">
+    <!-- Initials -->
+    <div class="navbar-brand" aria-hidden="true">MF</div>
+
+    <div class="navbar-divider" aria-hidden="true"></div>
+
+    <!-- Section links -->
     <ul class="navbar-links" role="list">
-      <li class="navbar-indicator" id="navbar-indicator" aria-hidden="true"></li>
       {sections.map((s) => (
         <li>
-          <a class="navbar-link" href={`#${s.id}`} data-section={s.id} title={s.label}>
+          <a class="navbar-link" href={`#${s.id}`} data-section={s.id} data-tooltip={s.label}>
             <i class={s.icon} aria-hidden="true"></i>
             <span class="navbar-link-label">{s.label}</span>
           </a>
         </li>
       ))}
     </ul>
+
+    <div class="navbar-divider" aria-hidden="true"></div>
+
+    <!-- Contact links -->
     <div class="navbar-contact">
       {contacts.map((c) => (
         <a
           href={c.url}
           target="_blank"
           rel="noopener noreferrer"
-          class={`navbar-contact-link ${c.icon}`}
+          class={`navbar-contact-link navbar-contact-link--${c.icon}`}
+          data-tooltip={c.name}
           aria-label={c.name}
         >
           <i class={iconMap[c.icon] || 'fa-solid fa-link'} aria-hidden="true"></i>
@@ -62,6 +76,6 @@ const iconMap: Record<string, string> = {
   </div>
 </nav>
 
-<style>
+<style is:global>
   @import '../styles/components/navbar.css';
 </style>

@@ -1,8 +1,8 @@
 function initNavbar(): void {
   const links = document.querySelectorAll<HTMLAnchorElement>('.navbar-link');
-  const indicator = document.getElementById('navbar-indicator');
   const toggle = document.getElementById('navbar-toggle');
   const panel = document.getElementById('navbar-panel');
+  const overlay = document.getElementById('navbar-overlay');
   if (!links.length) return;
 
   const sections = Array.from(links).map((link) => {
@@ -27,12 +27,6 @@ function initNavbar(): void {
 
   function updateActiveLink(index: number): void {
     links.forEach((link, i) => link.classList.toggle('active', i === index));
-
-    if (indicator && links[index]) {
-      const linkRect = links[index].getBoundingClientRect();
-      const navRect = links[index].closest('.navbar-links')!.getBoundingClientRect();
-      indicator.style.top = `${linkRect.top - navRect.top}px`;
-    }
   }
 
   /* === Smooth scroll on link click === */
@@ -50,13 +44,23 @@ function initNavbar(): void {
   function closePanel(): void {
     toggle?.classList.remove('open');
     panel?.classList.remove('open');
+    overlay?.classList.remove('open');
     toggle?.setAttribute('aria-expanded', 'false');
   }
 
   toggle?.addEventListener('click', () => {
     const isOpen = toggle.classList.toggle('open');
     panel?.classList.toggle('open', isOpen);
+    overlay?.classList.toggle('open', isOpen);
     toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Close on overlay click
+  overlay?.addEventListener('click', closePanel);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePanel();
   });
 
   updateActiveLink(0);
