@@ -1,21 +1,20 @@
+/* =================== CONTACT =================== */
 .contact-section {
-  min-height: 60vh;
   width: 100%;
-  max-width: 80rem;
+  max-width: 70rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  gap: 3rem;
+  padding: 6rem 2rem 8rem;
+  gap: 2rem;
 }
 
 .contact-title {
   font-size: var(--title-font-size);
-  font-family: var(--title-font);
-  font-weight: 400;
-  color: white;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text-heading);
   opacity: 0;
   transition: opacity 0.6s;
 }
@@ -24,45 +23,106 @@
   opacity: 1;
 }
 
-.contact-links {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
+.contact-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--auxtext-font-size);
+  color: var(--text-secondary);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s 0.1s;
 }
 
-.contact-link {
+.contact-subtitle.visible {
+  opacity: 1;
+}
+
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  width: 100%;
+  max-width: 50rem;
+  margin-top: 1rem;
+}
+
+/* ---- Card base ---- */
+.contact-card {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.6rem 2.4rem;
+  gap: 1.4rem;
+  padding: 1.8rem 2.4rem;
   border-radius: 1.2rem;
-  background: #63e6fd1b;
-  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.298);
-  backdrop-filter: blur(0.6rem);
-  color: black;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
   text-decoration: none;
-  font-size: var(--text-font-size);
-  font-family: var(--main-font);
-  transition: 0.3s;
+  font-family: var(--font-body);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
   opacity: 0;
   transform: translateY(1rem);
 }
 
-.contact-link.visible {
+.contact-card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.contact-link:hover {
-  transform: translateY(-0.2rem);
-  box-shadow: 0 0 3rem rgba(0, 0, 0, 0.4);
+.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  background: var(--bg-card-hover);
 }
 
-.contact-link i {
+.contact-card > i:first-child {
   font-size: 2.4rem;
+  flex-shrink: 0;
 }
 
-.contact-link.whatsapp:hover { color: #25d366; }
-.contact-link.linkedin:hover { color: #0a66c2; }
-.contact-link.email:hover { color: #ffc107; }
+/* ---- LinkedIn (prominent) ---- */
+.contact-card--linkedin {
+  background: rgba(10, 102, 194, 0.15);
+  border-color: rgba(10, 102, 194, 0.3);
+}
+
+.contact-card--linkedin:hover {
+  background: rgba(10, 102, 194, 0.25);
+}
+
+.contact-card--linkedin > i:first-child {
+  color: #0a66c2;
+  font-size: 2.8rem;
+}
+
+.contact-card-label {
+  font-size: var(--text-font-size);
+  font-weight: 500;
+  flex: 1;
+}
+
+.contact-card-arrow {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+}
+
+/* ---- Other cards ---- */
+.contact-card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-card-name {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-heading);
+}
+
+.contact-card-detail {
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+}
+
+.contact-card--whatsapp > i:first-child { color: #25d366; }
+.contact-card--email > i:first-child { color: var(--accent-primary); }

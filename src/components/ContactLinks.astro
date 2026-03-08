@@ -17,21 +17,51 @@ const iconMap: Record<string, string> = {
   linkedin: 'fa-brands fa-linkedin',
   email: 'fa-solid fa-envelope',
 };
+
+// Order: LinkedIn first (most relevant for recruiters), then WhatsApp, then email
+const ordered = [...contacts].sort((a, b) => {
+  const priority: Record<string, number> = { linkedin: 0, whatsapp: 1, email: 2 };
+  return (priority[a.icon] ?? 3) - (priority[b.icon] ?? 3);
+});
+
+const linkedin = ordered.find((c) => c.icon === 'linkedin');
+const others = ordered.filter((c) => c.icon !== 'linkedin');
 ---
 
 <section class="contact-section" id="contact" data-animate>
   <h2 class="contact-title" data-animate-child>Contacto</h2>
-  <div class="contact-links">
-    {contacts.map((c) => (
+  <p class="contact-subtitle" data-animate-child>¿Interesado en mi perfil? No dudes en contactarme.</p>
+
+  <div class="contact-grid">
+    {linkedin && (
+      <a
+        href={linkedin.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="contact-card contact-card--linkedin"
+        data-animate-child
+        aria-label={`Conectar en ${linkedin.name}`}
+      >
+        <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+        <span class="contact-card-label">Conectar en LinkedIn</span>
+        <i class="fa-solid fa-arrow-up-right-from-square contact-card-arrow" aria-hidden="true"></i>
+      </a>
+    )}
+
+    {others.map((c) => (
       <a
         href={c.url}
         target="_blank"
         rel="noopener noreferrer"
-        class={`contact-link ${c.icon}`}
+        class={`contact-card contact-card--${c.icon}`}
         data-animate-child
+        aria-label={c.name}
       >
-        <i class={iconMap[c.icon] || 'fa-solid fa-link'}></i>
-        <span>{c.label}</span>
+        <i class={iconMap[c.icon] || 'fa-solid fa-link'} aria-hidden="true"></i>
+        <div class="contact-card-text">
+          <span class="contact-card-name">{c.name}</span>
+          <span class="contact-card-detail">{c.label}</span>
+        </div>
       </a>
     ))}
   </div>
