@@ -27,29 +27,38 @@ const iconMap: Record<string, string> = {
 };
 ---
 
-<nav class="navbar" id="navbar">
-  <ul class="navbar-links">
-    <li class="navbar-indicator" id="navbar-indicator"></li>
-    {sections.map((s) => (
-      <li>
-        <a class="navbar-link" href={`#${s.id}`} data-section={s.id} title={s.label}>
-          <i class={s.icon}></i>
+<nav class="navbar" id="navbar" aria-label="Navegación principal">
+  <button class="navbar-toggle" id="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
+    <span class="navbar-toggle-bar"></span>
+    <span class="navbar-toggle-bar"></span>
+    <span class="navbar-toggle-bar"></span>
+  </button>
+
+  <div class="navbar-panel" id="navbar-panel">
+    <ul class="navbar-links" role="list">
+      <li class="navbar-indicator" id="navbar-indicator" aria-hidden="true"></li>
+      {sections.map((s) => (
+        <li>
+          <a class="navbar-link" href={`#${s.id}`} data-section={s.id} title={s.label}>
+            <i class={s.icon} aria-hidden="true"></i>
+            <span class="navbar-link-label">{s.label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="navbar-contact">
+      {contacts.map((c) => (
+        <a
+          href={c.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={`navbar-contact-link ${c.icon}`}
+          aria-label={c.name}
+        >
+          <i class={iconMap[c.icon] || 'fa-solid fa-link'} aria-hidden="true"></i>
         </a>
-      </li>
-    ))}
-  </ul>
-  <div class="navbar-contact">
-    {contacts.map((c) => (
-      <a
-        href={c.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class={c.icon}
-        title={c.name}
-      >
-        <i class={iconMap[c.icon] || 'fa-solid fa-link'}></i>
-      </a>
-    ))}
+      ))}
+    </div>
   </div>
 </nav>
 

@@ -1,6 +1,8 @@
 function initNavbar(): void {
   const links = document.querySelectorAll<HTMLAnchorElement>('.navbar-link');
   const indicator = document.getElementById('navbar-indicator');
+  const toggle = document.getElementById('navbar-toggle');
+  const panel = document.getElementById('navbar-panel');
   if (!links.length) return;
 
   const sections = Array.from(links).map((link) => {
@@ -8,14 +10,13 @@ function initNavbar(): void {
     return document.getElementById(id);
   }).filter(Boolean) as HTMLElement[];
 
+  /* === Scroll spy === */
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const index = sections.indexOf(entry.target as HTMLElement);
-          if (index !== -1) {
-            updateActiveLink(index);
-          }
+          if (index !== -1) updateActiveLink(index);
         }
       });
     },
@@ -25,9 +26,7 @@ function initNavbar(): void {
   sections.forEach((section) => observer.observe(section));
 
   function updateActiveLink(index: number): void {
-    links.forEach((link, i) => {
-      link.classList.toggle('active', i === index);
-    });
+    links.forEach((link, i) => link.classList.toggle('active', i === index));
 
     if (indicator && links[index]) {
       const linkRect = links[index].getBoundingClientRect();
@@ -36,13 +35,28 @@ function initNavbar(): void {
     }
   }
 
+  /* === Smooth scroll on link click === */
   links.forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const id = link.dataset.section!;
       const target = document.getElementById(id);
       target?.scrollIntoView({ behavior: 'smooth' });
+      closePanel();
     });
+  });
+
+  /* === Hamburger toggle (mobile) === */
+  function closePanel(): void {
+    toggle?.classList.remove('open');
+    panel?.classList.remove('open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.classList.toggle('open');
+    panel?.classList.toggle('open', isOpen);
+    toggle.setAttribute('aria-expanded', String(isOpen));
   });
 
   updateActiveLink(0);
