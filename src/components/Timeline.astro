@@ -19,53 +19,30 @@ interface Props {
 const { id, sectionTitle, entries, indicatorIcon = '✈️' } = Astro.props;
 ---
 
-<section class="timeline-section" id={id} data-animate>
-  <h2 class="timeline-section-title" data-animate-child>{sectionTitle}</h2>
+<section class="vtl-section" id={id} data-animate>
+  <h2 class="vtl-title" data-animate-child>{sectionTitle}</h2>
 
-  {entries.map((entry, i) => (
-    <div
-      class={`timeline-background ${i === 0 ? 'selected' : ''}`}
-      style={entry.background ? `background-image: url(${entry.background})` : ''}
-      data-bg-index={i}
-    />
-  ))}
+  <div class="vtl-container">
+    <div class="vtl-line" aria-hidden="true">
+      <div class="vtl-line-fill" data-vtl-line={id}></div>
+    </div>
 
-  <div class="timeline-content">
-    <div class="timeline-infoboxes" data-timeline-scroll={id}>
-      {entries.map((entry, i) => (
-        <div class="timeline-infobox-wrapper" data-index={i}>
-          <div class={`timeline-infobox ${i === 0 ? 'selected' : ''}`} data-infobox={i}>
-            <div class="timeline-card">
-              <div class="timeline-card-content">
-                <div class="timeline-card-header">
-                  <h3><i class="fa-solid fa-briefcase"></i> {entry.title}</h3>
-                  <span>{entry.subtitle}</span>
-                </div>
-                <p class="timeline-card-lapse"><i class="fa-solid fa-calendar"></i> {entry.lapse}</p>
-                <div class="timeline-card-body" set:html={entry.bodyHtml} />
-              </div>
-            </div>
-          </div>
+    {entries.map((entry, i) => (
+      <article
+        class={`vtl-item ${i % 2 === 0 ? 'vtl-item--left' : 'vtl-item--right'}`}
+        data-animate-child
+      >
+        <div class="vtl-node" aria-hidden="true">
+          <span class="vtl-node-icon">{indicatorIcon}</span>
         </div>
-      ))}
-    </div>
-
-    <div class="timeline-bar" data-animate-child>
-      <ul class="timeline-points" data-timeline-points={id}>
-        <li class="timeline-indicator" data-timeline-indicator={id}>{indicatorIcon}</li>
-        {entries.map((entry, i) => (
-          <li class="timeline-point-container">
-            <div
-              class={`timeline-point ${i === 0 ? 'selected' : ''}`}
-              data-point-index={i}
-              data-timeline-id={id}
-            >
-              <span class="timeline-point-title">{entry.pointLabel}</span>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+        <div class="vtl-card">
+          <span class="vtl-card-date">{entry.lapse}</span>
+          <h3 class="vtl-card-title">{entry.title}</h3>
+          <p class="vtl-card-subtitle">{entry.subtitle}</p>
+          <div class="vtl-card-body" set:html={entry.bodyHtml} />
+        </div>
+      </article>
+    ))}
   </div>
 </section>
 
