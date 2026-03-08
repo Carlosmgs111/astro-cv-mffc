@@ -1,21 +1,20 @@
+/* =================== SKILLS BENTO GRID =================== */
 .skills-section {
-  min-height: 100vh;
   width: 100%;
-  max-width: 80rem;
+  max-width: 90rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
+  padding: 6rem 2rem;
   gap: 3rem;
 }
 
 .skills-title {
   font-size: var(--title-font-size);
-  font-family: var(--title-font);
-  font-weight: 400;
-  color: white;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--text-heading);
   opacity: 0;
   transition: opacity 0.6s;
 }
@@ -24,76 +23,83 @@
   opacity: 1;
 }
 
-.skills-grid {
+.bento-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   width: 100%;
-  justify-items: center;
 }
 
-.skill-card {
-  width: 100%;
-  max-width: 30rem;
+/* First card spans 2 columns */
+.bento-card--featured {
+  grid-column: span 2;
+}
+
+.bento-card {
   padding: 2.4rem;
-  border-radius: 1.6rem;
-  background: #63e6fd1b;
-  box-shadow: 0 0 2rem rgba(0, 0, 0, 0.298);
-  backdrop-filter: blur(0.6rem);
+  border-radius: 1.2rem;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.6rem;
+  gap: 1.2rem;
+  transition: box-shadow 0.3s, transform 0.3s;
   opacity: 0;
   transform: translateY(2rem);
-  transition: opacity 0.6s, transform 0.6s;
 }
 
-.skill-card.visible {
+.bento-card.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.skill-label {
-  font-size: var(--text-font-size);
-  font-family: var(--main-font);
-  font-weight: 500;
-  color: black;
-  text-align: center;
+.bento-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-3px);
 }
 
-.skill-progress {
-  position: relative;
-  width: 12rem;
-  height: 12rem;
+.bento-card-icon {
+  width: 4.4rem;
+  height: 4.4rem;
+  border-radius: 1rem;
+  background: rgba(0, 163, 224, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--accent-primary);
 }
 
-.skill-progress svg {
-  transform: rotate(-90deg);
-  width: 100%;
-  height: 100%;
-}
-
-.skill-progress-bg {
-  fill: none;
-  stroke: var(--main-color-950b);
-  stroke-width: 8;
-}
-
-.skill-progress-fill {
-  fill: none;
-  stroke: var(--main-color-400);
-  stroke-width: 8;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 1s ease;
-}
-
-.skill-progress-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.4rem;
+.bento-card-label {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
   font-weight: 600;
-  color: black;
+  color: var(--text-heading);
+}
+
+.bento-card-desc {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+/* =================== RESPONSIVE =================== */
+@media screen and (max-width: 800px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-card--featured {
+    grid-column: span 1;
+  }
+}
+
+@media screen and (min-width: 801px) and (max-width: 1100px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -27,8 +27,9 @@ const collectionFields: Record<string, FieldConfig[]> = {
   skills: [
     { name: 'name', label: 'Nombre interno', type: 'text', required: true },
     { name: 'label', label: 'Etiqueta visible', type: 'text', required: true },
-    { name: 'level', label: 'Nivel (0-100)', type: 'number', required: true },
+    { name: 'icon', label: 'Icono (clase FontAwesome)', type: 'text', required: true },
     { name: 'order', label: 'Orden', type: 'number' },
+    { name: 'content', label: 'Descripción (Markdown)', type: 'textarea' },
   ],
 };
 

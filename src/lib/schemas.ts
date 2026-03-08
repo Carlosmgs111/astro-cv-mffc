@@ -40,7 +40,8 @@ export const formationSchema = z.object({
 export const skillSchema = z.object({
   name: z.string().min(1),
   label: z.string().min(1),
-  level: z.number().int().min(0).max(100),
+  level: z.number().int().min(0).max(100).optional().default(0),
+  icon: z.string().optional().default('fa-solid fa-star'),
   order: z.number().int().default(0),
 });
 

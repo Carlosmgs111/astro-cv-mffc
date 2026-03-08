@@ -1,30 +1,18 @@
 ---
 interface Props {
   label: string;
-  level: number;
+  icon: string;
+  description: string;
+  featured?: boolean;
 }
 
-const { label, level } = Astro.props;
-
-const radius = 46;
-const circumference = 2 * Math.PI * radius;
-const offset = circumference - (level / 100) * circumference;
+const { label, icon, description, featured = false } = Astro.props;
 ---
 
-<div class="skill-card" data-animate-child>
-  <div class="skill-progress">
-    <svg viewBox="0 0 100 100">
-      <circle class="skill-progress-bg" cx="50" cy="50" r={radius} />
-      <circle
-        class="skill-progress-fill"
-        cx="50"
-        cy="50"
-        r={radius}
-        stroke-dasharray={circumference}
-        stroke-dashoffset={offset}
-      />
-    </svg>
-    <span class="skill-progress-text">{level}%</span>
+<div class={`bento-card ${featured ? 'bento-card--featured' : ''}`} data-animate-child>
+  <div class="bento-card-icon">
+    <i class={icon} aria-hidden="true"></i>
   </div>
-  <span class="skill-label">{label}</span>
+  <h3 class="bento-card-label">{label}</h3>
+  <p class="bento-card-desc">{description}</p>
 </div>

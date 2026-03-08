@@ -56,7 +56,8 @@ const formEntries = formations.map((f, i) => ({
 
 const skillsData = skills.map((s) => ({
   label: s.data.label,
-  level: s.data.level,
+  icon: (s.data as any).icon || 'fa-solid fa-star',
+  description: s.html || '',
 }));
 
 const contacts = contactData?.data?.links ?? [];

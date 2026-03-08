@@ -102,7 +102,7 @@ const about = getSingleton('about');
           <div class="dashboard-item" data-slug={s.slug}>
             <div class="dashboard-item-info">
               <strong>{(s.data as any).label}</strong>
-              <span>{(s.data as any).level}%</span>
+              <span>{(s.data as any).icon || 'fa-solid fa-star'}</span>
             </div>
             <div class="dashboard-item-actions">
               <button class="btn btn-primary btn-sm" data-edit="skills" data-slug={s.slug}>
