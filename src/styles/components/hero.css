@@ -1,27 +1,127 @@
 .hero {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  padding: 4rem 2rem;
+  gap: 3rem;
+  padding: 6rem 2rem 4rem;
   position: relative;
   width: 100%;
-  max-width: 80rem;
+  max-width: 90rem;
   margin: 0 auto;
 }
 
+/* ---- Text side ---- */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-content.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-greeting {
+  font-family: var(--font-body);
+  font-size: var(--auxtext-font-size);
+  font-weight: 400;
+  color: var(--accent-primary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: var(--main-title-font-size);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-heading);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-size: var(--title-font-size);
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+
+.hero-about {
+  max-width: 55rem;
+  font-size: var(--text-font-size);
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  line-height: 1.8;
+  margin-top: 0.4rem;
+}
+
+/* ---- CTA buttons ---- */
+.hero-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.6rem;
+  justify-content: center;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 2.4rem;
+  border-radius: 0.8rem;
+  font-family: var(--font-body);
+  font-size: var(--button-font-size);
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hero-btn-primary {
+  background: var(--accent-secondary);
+  color: white;
+  box-shadow: 0 4px 16px rgba(244, 132, 95, 0.3);
+}
+
+.hero-btn-primary:hover {
+  box-shadow: 0 6px 24px rgba(244, 132, 95, 0.4);
+}
+
+.hero-btn-secondary {
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+}
+
+.hero-btn-secondary:hover {
+  background: var(--bg-card-hover);
+}
+
+/* ---- Photo ---- */
 .hero-photo-container {
   position: relative;
   width: 22rem;
-  height: 22rem;
-  border-radius: 50%;
+  height: 26rem;
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%);
   overflow: hidden;
   filter: drop-shadow(0 0 2rem rgba(0, 0, 0, 0.3));
   opacity: 0;
   transform: translateY(2rem);
-  transition: opacity 0.8s, transform 0.8s;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
 }
 
 .hero-photo-container.visible {
@@ -36,61 +136,26 @@
   object-position: center top;
 }
 
-.hero-title {
-  font-size: var(--main-title-font-size);
-  font-family: var(--title-font);
-  font-weight: 600;
-  text-align: center;
-  color: white;
-  opacity: 0;
-  transform: translateY(1rem);
-  transition: opacity 0.6s 0.2s, transform 0.6s 0.2s;
-}
-
-.hero-title.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-subtitle {
-  font-size: var(--title-font-size);
-  font-family: var(--main-font);
-  font-weight: 300;
-  text-align: center;
-  color: var(--main-color-100);
-  opacity: 0;
-  transition: opacity 0.6s 0.4s;
-}
-
-.hero-subtitle.visible {
-  opacity: 1;
-}
-
-.hero-about {
-  max-width: 60rem;
-  font-size: var(--text-font-size);
-  font-family: var(--main-font);
-  text-align: center;
-  color: white;
-  line-height: 1.8;
-  opacity: 0;
-  transform: translateY(1rem);
-  transition: opacity 0.8s 0.6s, transform 0.8s 0.6s;
-}
-
-.hero-about.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media screen and (min-width: 1280px) {
+/* ---- Desktop: side by side ---- */
+@media screen and (min-width: 900px) {
   .hero {
     flex-direction: row;
-    gap: 4rem;
-  }
-  .hero-title,
-  .hero-subtitle,
-  .hero-about {
+    gap: 6rem;
     text-align: left;
+  }
+
+  .hero-content {
+    text-align: left;
+    flex: 1;
+  }
+
+  .hero-actions {
+    justify-content: flex-start;
+  }
+
+  .hero-photo-container {
+    width: 28rem;
+    height: 34rem;
+    flex-shrink: 0;
   }
 }

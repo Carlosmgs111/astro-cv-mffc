@@ -71,6 +71,7 @@ const contacts = contactData?.data?.links ?? [];
       title={hero?.data?.title ?? ''}
       photo={hero?.data?.photo ?? '/images/mffc_bg_removed.png'}
       aboutHtml={about?.html ?? ''}
+      contactUrl={contacts.find(c => c.icon === 'whatsapp')?.url}
     />
 
     {expEntries.length > 0 && (

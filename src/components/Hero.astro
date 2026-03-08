@@ -4,19 +4,32 @@ interface Props {
   title: string;
   photo: string;
   aboutHtml: string;
+  cvUrl?: string;
+  contactUrl?: string;
 }
 
-const { name, title, photo, aboutHtml } = Astro.props;
+const { name, title, photo, aboutHtml, cvUrl, contactUrl } = Astro.props;
 ---
 
 <section class="hero" id="hero" data-animate>
+  <div class="hero-content" data-animate-child>
+    <p class="hero-greeting">Hola, soy</p>
+    <h1 class="hero-title">{name}</h1>
+    <p class="hero-subtitle">{title}</p>
+    <div class="hero-about" set:html={aboutHtml} />
+    <div class="hero-actions">
+      {contactUrl && (
+        <a href={contactUrl} target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-primary">
+          <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Contactar
+        </a>
+      )}
+      <a href="#contact" class="hero-btn hero-btn-secondary">
+        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> Saber más
+      </a>
+    </div>
+  </div>
   <div class="hero-photo-container" data-animate-child>
     <img class="hero-photo" src={photo} alt={`Foto de ${name}`} loading="eager" />
-  </div>
-  <div class="hero-text">
-    <h1 class="hero-title" data-animate-child>{name}</h1>
-    <p class="hero-subtitle" data-animate-child>{title}</p>
-    <div class="hero-about" data-animate-child set:html={aboutHtml} />
   </div>
 </section>
 
