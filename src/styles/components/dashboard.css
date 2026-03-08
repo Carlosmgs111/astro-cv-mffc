@@ -1,7 +1,7 @@
 .dashboard {
   min-height: 100vh;
   padding: 4rem;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
   max-width: 90rem;
   margin: 0 auto;
 }
@@ -28,7 +28,7 @@
   outline: none;
   padding: 1rem 2rem;
   border-radius: 0.8rem;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
   font-size: 1.4rem;
   font-weight: 600;
   cursor: pointer;
@@ -42,12 +42,12 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--main-color-500), var(--main-color-700));
+  background: linear-gradient(135deg, var(--accent-primary), var(--color-sky-600));
   color: white;
 }
 
 .btn-danger {
-  background: linear-gradient(135deg, var(--secondary-color-500), var(--secondary-color-700));
+  background: linear-gradient(135deg, var(--accent-secondary), var(--color-coral-500));
   color: white;
 }
 
@@ -100,7 +100,7 @@
 
 .dashboard-item-info strong {
   font-size: 1.6rem;
-  color: black;
+  color: var(--text-on-light);
 }
 
 .dashboard-item-info span {
@@ -144,7 +144,7 @@
 .modal h3 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
 }
 
 .form-group {
@@ -156,7 +156,7 @@
   font-size: 1.4rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
 }
 
 .form-group input,
@@ -165,7 +165,7 @@
   padding: 1rem;
   border: 1px solid #ccc;
   border-radius: 0.6rem;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-body);
   font-size: 1.4rem;
 }
 

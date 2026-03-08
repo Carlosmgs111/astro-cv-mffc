@@ -72,13 +72,13 @@ if (Astro.locals.user) {
   }
   .login-box h2 {
     font-size: 2.4rem;
-    color: black;
+    color: var(--text-heading);
     margin-bottom: 2rem;
     text-align: center;
-    font-family: var(--main-font);
+    font-family: var(--font-heading);
   }
   .login-error {
-    color: var(--secondary-color-500);
+    color: var(--accent-secondary);
     font-size: 1.2rem;
     text-align: center;
     margin-bottom: 1rem;
@@ -95,14 +95,14 @@ if (Astro.locals.user) {
     font-size: 1.4rem;
     font-weight: 500;
     margin-bottom: 0.4rem;
-    font-family: var(--main-font);
+    font-family: var(--font-body);
   }
   .form-group input {
     width: 100%;
     padding: 1rem;
     border: 1px solid #ccc;
     border-radius: 0.6rem;
-    font-family: var(--main-font);
+    font-family: var(--font-body);
     font-size: 1.4rem;
   }
   .form-actions {
@@ -116,7 +116,7 @@ if (Astro.locals.user) {
     outline: none;
     padding: 1rem 2rem;
     border-radius: 0.8rem;
-    font-family: var(--main-font);
+    font-family: var(--font-body);
     font-size: 1.4rem;
     font-weight: 600;
     cursor: pointer;
@@ -124,12 +124,12 @@ if (Astro.locals.user) {
     text-decoration: none;
   }
   .btn-primary {
-    background: linear-gradient(135deg, var(--main-color-500), var(--main-color-700));
+    background: linear-gradient(135deg, var(--accent-primary), var(--color-sky-600));
     color: white;
   }
   .btn-secondary {
     background: rgba(255, 255, 255, 0.2);
-    color: black;
+    color: var(--text-on-light);
     backdrop-filter: blur(0.6rem);
   }
   .btn:hover {
