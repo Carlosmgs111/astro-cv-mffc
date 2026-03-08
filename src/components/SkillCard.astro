@@ -4,15 +4,36 @@ interface Props {
   icon: string;
   description: string;
   featured?: boolean;
+  colorIndex?: number;
 }
 
-const { label, icon, description, featured = false } = Astro.props;
+const { label, icon, description, featured = false, colorIndex = 0 } = Astro.props;
+
+const colors = [
+  { bg: 'rgba(0, 163, 224, 0.12)', glow: 'rgba(0, 163, 224, 0.25)', accent: '#00A3E0' },
+  { bg: 'rgba(244, 132, 95, 0.12)', glow: 'rgba(244, 132, 95, 0.25)', accent: '#F4845F' },
+  { bg: 'rgba(16, 185, 129, 0.12)', glow: 'rgba(16, 185, 129, 0.25)', accent: '#10B981' },
+  { bg: 'rgba(139, 92, 246, 0.12)', glow: 'rgba(139, 92, 246, 0.25)', accent: '#8B5CF6' },
+  { bg: 'rgba(245, 158, 11, 0.12)', glow: 'rgba(245, 158, 11, 0.25)', accent: '#F59E0B' },
+];
+
+const color = colors[colorIndex % colors.length];
 ---
 
-<div class={`bento-card ${featured ? 'bento-card--featured' : ''}`} data-animate-child>
-  <div class="bento-card-icon">
-    <i class={icon} aria-hidden="true"></i>
+<div
+  class={`bento-card ${featured ? 'bento-card--featured' : ''}`}
+  data-animate-child
+  style={`--card-accent: ${color.accent}; --card-bg: ${color.bg}; --card-glow: ${color.glow};`}
+>
+  <div class="bento-card-accent" aria-hidden="true"></div>
+  <div class="bento-card-body">
+    <div class="bento-card-icon">
+      <div class="bento-card-icon-glow" aria-hidden="true"></div>
+      <i class={icon} aria-hidden="true"></i>
+    </div>
+    <div class="bento-card-text">
+      <h3 class="bento-card-label">{label}</h3>
+      <div class="bento-card-desc" set:html={description} />
+    </div>
   </div>
-  <h3 class="bento-card-label">{label}</h3>
-  <div class="bento-card-desc" set:html={description} />
 </div>
