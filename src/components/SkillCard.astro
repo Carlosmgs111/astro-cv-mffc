@@ -14,5 +14,5 @@ const { label, icon, description, featured = false } = Astro.props;
     <i class={icon} aria-hidden="true"></i>
   </div>
   <h3 class="bento-card-label">{label}</h3>
-  <p class="bento-card-desc">{description}</p>
+  <div class="bento-card-desc" set:html={description} />
 </div>
