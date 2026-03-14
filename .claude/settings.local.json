@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_engram_engram__mem_context",
+      "Bash(git:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(tail:*2)"
+    ]
+  }
+}

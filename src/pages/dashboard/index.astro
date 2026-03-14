@@ -1,17 +1,17 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { listCollection, getSingleton } from '../../lib/content';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { listCollection, getSingleton } from "../../lib/content";
 
 const user = Astro.locals.user;
 if (!user) {
-  return Astro.redirect('/login');
+  return Astro.redirect("/login");
 }
 
-const experiences = listCollection('experiences');
-const formations = listCollection('formations');
-const skills = listCollection('skills');
-const hero = getSingleton('hero');
-const about = getSingleton('about');
+const experiences = listCollection("experiences");
+const formations = listCollection("formations");
+const skills = listCollection("skills");
+const hero = getSingleton("hero");
+const about = getSingleton("about");
 ---
 
 <BaseLayout title="Dashboard — MFFC">
@@ -19,8 +19,12 @@ const about = getSingleton('about');
     <div class="dashboard-header">
       <h1>Dashboard</h1>
       <div class="dashboard-actions">
-        <a href="/" class="btn btn-secondary"><i class="fa-solid fa-house"></i> Inicio</a>
-        <button class="btn btn-danger" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+        <a href="/" class="btn btn-secondary"
+          ><i class="fa-solid fa-house"></i> Inicio</a
+        >
+        <button class="btn btn-danger" id="logout-btn"
+          ><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button
+        >
       </div>
     </div>
 
@@ -29,8 +33,13 @@ const about = getSingleton('about');
       <div class="dashboard-items">
         <div class="dashboard-item">
           <div class="dashboard-item-info">
-            <strong>{(hero?.data as any)?.name ?? 'Sin nombre'}</strong>
-            <span>{(hero?.data as any)?.title ?? ''}</span>
+            <strong>{(hero?.data as any)?.name ?? "Sin nombre"}</strong>
+            <span>{(hero?.data as any)?.title ?? ""}</span>
+          </div>
+          <div class="dashboard-item-actions">
+            <button class="btn btn-primary btn-sm" data-edit-singleton="hero">
+              <i class="fa-solid fa-pen"></i>
+            </button>
           </div>
         </div>
         <div class="dashboard-item">
@@ -38,6 +47,57 @@ const about = getSingleton('about');
             <strong>Acerca de</strong>
             <span>{about?.body?.substring(0, 80)}...</span>
           </div>
+          <div class="dashboard-item-actions">
+            <button class="btn btn-primary btn-sm" data-edit-singleton="about">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="photo-section-title">
+        <i class="fa-solid fa-camera"></i> Foto de perfil
+      </h2>
+      <div class="photo-dropzone" id="photo-dropzone">
+        <input type="file" id="photo-file-input" accept="image/*" hidden />
+        <div class="photo-previews">
+          <div class="photo-preview-card">
+            <span class="photo-preview-label">Actual</span>
+            <img
+              src={(hero?.data as any)?.photo ?? "/images/mffc_bg_removed.png"}
+              alt="Foto actual"
+              class="photo-preview-img"
+            />
+          </div>
+          <div
+            class="photo-preview-card photo-preview-new-card"
+            id="photo-new-container"
+            style="display:none;"
+          >
+            <span class="photo-preview-label">Nueva</span>
+            <img
+              id="photo-preview-new"
+              alt="Nueva foto"
+              class="photo-preview-img"
+            />
+          </div>
+        </div>
+        <p class="photo-drop-hint" id="photo-drop-hint">
+          Arrastra una imagen o haz clic para seleccionar
+        </p>
+        <div class="photo-actions">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            id="photo-cancel-btn"
+            style="display:none;">Cancelar</button
+          >
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            id="photo-save-btn"
+            style="display:none;">Guardar</button
+          >
         </div>
       </div>
     </div>
@@ -45,75 +105,114 @@ const about = getSingleton('about');
     <div class="dashboard-section">
       <h2>
         <i class="fa-solid fa-briefcase"></i> Experiencias
-        <button class="btn btn-primary btn-sm" data-add="experiences"><i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-primary btn-sm" data-add="experiences"
+          ><i class="fa-solid fa-plus"></i></button
+        >
       </h2>
       <div class="dashboard-items" id="experiences-list">
-        {experiences.map((exp) => (
-          <div class="dashboard-item" data-slug={exp.slug}>
-            <div class="dashboard-item-info">
-              <strong>{(exp.data as any).title}</strong>
-              <span>{(exp.data as any).company} — {(exp.data as any).startDate} a {(exp.data as any).endDate || 'Presente'}</span>
+        {
+          experiences.map((exp) => (
+            <div class="dashboard-item" data-slug={exp.slug}>
+              <div class="dashboard-item-info">
+                <strong>{(exp.data as any).title}</strong>
+                <span>
+                  {(exp.data as any).company} — {(exp.data as any).startDate} a{" "}
+                  {(exp.data as any).endDate || "Presente"}
+                </span>
+              </div>
+              <div class="dashboard-item-actions">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-edit="experiences"
+                  data-slug={exp.slug}
+                >
+                  <i class="fa-solid fa-pen" />
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  data-delete="experiences"
+                  data-slug={exp.slug}
+                >
+                  <i class="fa-solid fa-trash" />
+                </button>
+              </div>
             </div>
-            <div class="dashboard-item-actions">
-              <button class="btn btn-primary btn-sm" data-edit="experiences" data-slug={exp.slug}>
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button class="btn btn-danger btn-sm" data-delete="experiences" data-slug={exp.slug}>
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
 
     <div class="dashboard-section">
       <h2>
         <i class="fa-solid fa-graduation-cap"></i> Formación
-        <button class="btn btn-primary btn-sm" data-add="formations"><i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-primary btn-sm" data-add="formations"
+          ><i class="fa-solid fa-plus"></i></button
+        >
       </h2>
       <div class="dashboard-items" id="formations-list">
-        {formations.map((f) => (
-          <div class="dashboard-item" data-slug={f.slug}>
-            <div class="dashboard-item-info">
-              <strong>{(f.data as any).degree}</strong>
-              <span>{(f.data as any).institute}</span>
+        {
+          formations.map((f) => (
+            <div class="dashboard-item" data-slug={f.slug}>
+              <div class="dashboard-item-info">
+                <strong>{(f.data as any).degree}</strong>
+                <span>{(f.data as any).institute}</span>
+              </div>
+              <div class="dashboard-item-actions">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-edit="formations"
+                  data-slug={f.slug}
+                >
+                  <i class="fa-solid fa-pen" />
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  data-delete="formations"
+                  data-slug={f.slug}
+                >
+                  <i class="fa-solid fa-trash" />
+                </button>
+              </div>
             </div>
-            <div class="dashboard-item-actions">
-              <button class="btn btn-primary btn-sm" data-edit="formations" data-slug={f.slug}>
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button class="btn btn-danger btn-sm" data-delete="formations" data-slug={f.slug}>
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
 
     <div class="dashboard-section">
       <h2>
         <i class="fa-solid fa-chart-bar"></i> Habilidades
-        <button class="btn btn-primary btn-sm" data-add="skills"><i class="fa-solid fa-plus"></i></button>
+        <button class="btn btn-primary btn-sm" data-add="skills"
+          ><i class="fa-solid fa-plus"></i></button
+        >
       </h2>
       <div class="dashboard-items" id="skills-list">
-        {skills.map((s) => (
-          <div class="dashboard-item" data-slug={s.slug}>
-            <div class="dashboard-item-info">
-              <strong>{(s.data as any).label}</strong>
-              <span>{(s.data as any).icon || 'fa-solid fa-star'}</span>
+        {
+          skills.map((s) => (
+            <div class="dashboard-item" data-slug={s.slug}>
+              <div class="dashboard-item-info">
+                <strong>{(s.data as any).label}</strong>
+                <span>{(s.data as any).icon || "fa-solid fa-star"}</span>
+              </div>
+              <div class="dashboard-item-actions">
+                <button
+                  class="btn btn-primary btn-sm"
+                  data-edit="skills"
+                  data-slug={s.slug}
+                >
+                  <i class="fa-solid fa-pen" />
+                </button>
+                <button
+                  class="btn btn-danger btn-sm"
+                  data-delete="skills"
+                  data-slug={s.slug}
+                >
+                  <i class="fa-solid fa-trash" />
+                </button>
+              </div>
             </div>
-            <div class="dashboard-item-actions">
-              <button class="btn btn-primary btn-sm" data-edit="skills" data-slug={s.slug}>
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button class="btn btn-danger btn-sm" data-delete="skills" data-slug={s.slug}>
-                <i class="fa-solid fa-trash"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </div>
   </div>
@@ -124,7 +223,9 @@ const about = getSingleton('about');
       <form id="modal-form">
         <div id="modal-fields"></div>
         <div class="form-actions">
-          <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+          <button type="button" class="btn btn-secondary" id="modal-cancel"
+            >Cancelar</button
+          >
           <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
       </form>
@@ -134,6 +235,6 @@ const about = getSingleton('about');
   <script src="../../scripts/dashboard.ts"></script>
 </BaseLayout>
 
-<style>
-  @import '../../styles/components/dashboard.css';
+<style is:global>
+  @import "../../styles/components/dashboard.css";
 </style>
