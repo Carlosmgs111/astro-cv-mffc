@@ -6,13 +6,13 @@ const singletonSchemas: Record<string, any> = {
   hero: heroSchema,
 };
 
-export const GET: APIRoute = ({ params }) => {
+export const GET: APIRoute = async ({ params }) => {
   const { name } = params;
   if (!name) {
     return new Response(JSON.stringify({ error: 'Name required' }), { status: 400 });
   }
 
-  const item = getSingleton(name);
+  const item = await getSingleton(name);
   if (!item) {
     return new Response(JSON.stringify({ error: 'Not found' }), { status: 404 });
   }
@@ -44,7 +44,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
       }
     }
 
-    writeSingleton(name, frontmatter, mdBody ?? '');
+    await writeSingleton(name, frontmatter, mdBody ?? '');
 
     return new Response(JSON.stringify({ ok: true, ...frontmatter }), {
       headers: { 'Content-Type': 'application/json' },

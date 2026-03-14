@@ -1,6 +1,5 @@
 import type { APIRoute } from 'astro';
-import fs from 'node:fs';
-import path from 'node:path';
+import { put } from '@vercel/blob';
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -11,15 +10,12 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'No file provided' }), { status: 400 });
     }
 
-    const ext = path.extname(file.name) || '.png';
-    const safeName = `photo-${Date.now()}${ext}`;
-    const destDir = path.join(process.cwd(), 'public', 'images');
-    if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+    const ext = file.name.split('.').pop() || 'png';
+    const safeName = `photo-${Date.now()}.${ext}`;
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    fs.writeFileSync(path.join(destDir, safeName), buffer);
+    const blob = await put(safeName, file, { access: 'public' });
 
-    return new Response(JSON.stringify({ path: `/images/${safeName}` }), {
+    return new Response(JSON.stringify({ path: blob.url }), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch {

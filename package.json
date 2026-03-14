@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
-    "@astrojs/node": "^9.5.4",
+    "@astrojs/vercel": "^9.0.5",
+    "@vercel/blob": "^2.3.1",
     "astro": "^5.17.1",
     "gray-matter": "^4.0.3",
     "jose": "^6.2.0",
     "marked": "^17.0.4",
+    "octokit": "^5.0.5",
     "typescript": "^5.9.3",
     "zod": "^3.25.76"
   },

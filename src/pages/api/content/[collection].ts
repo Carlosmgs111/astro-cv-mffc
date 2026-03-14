@@ -2,13 +2,13 @@ import type { APIRoute } from 'astro';
 import { listCollection, writeItem, slugify } from '../../../lib/content';
 import { schemas } from '../../../lib/schemas';
 
-export const GET: APIRoute = ({ params }) => {
+export const GET: APIRoute = async ({ params }) => {
   const { collection } = params;
   if (!collection) {
     return new Response(JSON.stringify({ error: 'Collection required' }), { status: 400 });
   }
 
-  const items = listCollection(collection);
+  const items = await listCollection(collection);
   return new Response(JSON.stringify(items.map((item) => ({
     slug: item.slug,
     ...item.data,
@@ -40,7 +40,7 @@ export const POST: APIRoute = async ({ params, request }) => {
     const slugSource = frontmatter.title || frontmatter.name || frontmatter.degree || frontmatter.label || 'item';
     const slug = slugify(slugSource);
 
-    writeItem(collection, slug, frontmatter, mdBody || '');
+    await writeItem(collection, slug, frontmatter, mdBody || '');
 
     return new Response(JSON.stringify({ slug, ...frontmatter }), {
       status: 201,

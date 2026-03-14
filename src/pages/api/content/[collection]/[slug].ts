@@ -2,13 +2,13 @@ import type { APIRoute } from 'astro';
 import { getItem, writeItem, deleteItem } from '../../../../lib/content';
 import { schemas } from '../../../../lib/schemas';
 
-export const GET: APIRoute = ({ params }) => {
+export const GET: APIRoute = async ({ params }) => {
   const { collection, slug } = params;
   if (!collection || !slug) {
     return new Response(JSON.stringify({ error: 'Collection and slug required' }), { status: 400 });
   }
 
-  const item = getItem(collection, slug);
+  const item = await getItem(collection, slug);
   if (!item) {
     return new Response(JSON.stringify({ error: 'Not found' }), { status: 404 });
   }
@@ -41,7 +41,7 @@ export const PUT: APIRoute = async ({ params, request }) => {
       }
     }
 
-    writeItem(collection, slug, frontmatter, mdBody || '');
+    await writeItem(collection, slug, frontmatter, mdBody || '');
 
     return new Response(JSON.stringify({ slug, ...frontmatter }), {
       headers: { 'Content-Type': 'application/json' },
@@ -51,13 +51,13 @@ export const PUT: APIRoute = async ({ params, request }) => {
   }
 };
 
-export const DELETE: APIRoute = ({ params }) => {
+export const DELETE: APIRoute = async ({ params }) => {
   const { collection, slug } = params;
   if (!collection || !slug) {
     return new Response(JSON.stringify({ error: 'Collection and slug required' }), { status: 400 });
   }
 
-  const deleted = deleteItem(collection, slug);
+  const deleted = await deleteItem(collection, slug);
   if (!deleted) {
     return new Response(JSON.stringify({ error: 'Not found' }), { status: 404 });
   }

@@ -7,11 +7,11 @@ if (!user) {
   return Astro.redirect("/login");
 }
 
-const experiences = listCollection("experiences");
-const formations = listCollection("formations");
-const skills = listCollection("skills");
-const hero = getSingleton("hero");
-const about = getSingleton("about");
+const experiences = await listCollection("experiences");
+const formations = await listCollection("formations");
+const skills = await listCollection("skills");
+const hero = await getSingleton("hero");
+const about = await getSingleton("about");
 ---
 
 <BaseLayout title="Dashboard — MFFC">

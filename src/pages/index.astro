@@ -7,16 +7,16 @@ import SkillsGrid from "../components/SkillsGrid.astro";
 import ContactLinks from "../components/ContactLinks.astro";
 import { getSingleton, listCollection } from "../lib/content";
 
-const hero = getSingleton("hero");
-const about = getSingleton("about");
-const contactData = getSingleton<{
+const hero = await getSingleton("hero");
+const about = await getSingleton("about");
+const contactData = await getSingleton<{
   links: { name: string; label: string; url: string; icon: string }[];
 }>("contact");
-const backgrounds = getSingleton<{ portrait: string[]; landscape: string[] }>(
+const backgrounds = await getSingleton<{ portrait: string[]; landscape: string[] }>(
   "backgrounds"
 );
 
-const experiences = listCollection<{
+const experiences = await listCollection<{
   title: string;
   company: string;
   startDate: string;
@@ -25,7 +25,7 @@ const experiences = listCollection<{
   order: number;
 }>("experiences");
 
-const formations = listCollection<{
+const formations = await listCollection<{
   degree: string;
   institute: string;
   location: string;
@@ -34,7 +34,7 @@ const formations = listCollection<{
   order: number;
 }>("formations");
 
-const skills = listCollection<{
+const skills = await listCollection<{
   name: string;
   label: string;
   level: number;
