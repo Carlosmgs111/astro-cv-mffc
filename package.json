@@ -11,7 +11,6 @@
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/vercel": "^9.0.5",
-    "@vercel/blob": "^2.3.1",
     "astro": "^5.17.1",
     "gray-matter": "^4.0.3",
     "jose": "^6.2.0",

@@ -313,7 +313,10 @@ photoSaveBtn?.addEventListener('click', async (e) => {
     const uploadData = new FormData();
     uploadData.append('file', pendingPhotoFile);
     const uploadRes = await fetch('/api/upload', { method: 'POST', body: uploadData });
-    if (!uploadRes.ok) throw new Error('Upload failed');
+    if (!uploadRes.ok) {
+      const errBody = await uploadRes.json().catch(() => ({}));
+      throw new Error(errBody.detail || errBody.error || `Upload failed (${uploadRes.status})`);
+    }
     const { path: newPath } = await uploadRes.json();
 
     // Fetch current hero data to preserve name/title
@@ -339,8 +342,8 @@ photoSaveBtn?.addEventListener('click', async (e) => {
       const err = await updateRes.json();
       alert(`Error: ${JSON.stringify(err.error)}`);
     }
-  } catch {
-    alert('Error subiendo la foto');
+  } catch (err: any) {
+    alert(`Error subiendo la foto: ${err.message}`);
   } finally {
     photoSaveBtn!.textContent = 'Guardar';
     photoSaveBtn!.disabled = false;
